@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+html,body{margin:0;overscroll-behavior:none}
+.prompter-scrollbar{scrollbar-width:none;-ms-overflow-style:none}
+.prompter-scrollbar::-webkit-scrollbar{display:none}
+*:focus-visible{outline:2px solid #7c5cff;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
