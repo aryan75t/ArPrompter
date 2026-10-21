@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Play } from 'lucide-react'
 import { DEFAULTS } from './settings.js'
 import useLS from './useLS.js'
@@ -18,6 +18,10 @@ export default function App() {
   const [curId] = useLS('arprompter.current', null, 'cuedeck.current')
   const [s, setS] = useLS('arprompter.settings', DEFAULTS, 'cuedeck.settings')
   const [reading, setReading] = useState(false)
+  useEffect(() => {
+    preloadPrompter()
+  }, [])
+
   const cur = scripts.find((script) => script.id === curId) || scripts[0]
   const canStart = Boolean(cur.text.trim())
   const set = (changes) => setS((settings) => ({ ...settings, ...changes }))
@@ -36,9 +40,9 @@ export default function App() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#fafafa] px-4 py-10 text-zinc-900 sm:px-6">
+    <main className="flex min-h-[100svh] items-start justify-center bg-[#fafafa] px-4 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] text-zinc-900 sm:items-center sm:px-6 sm:py-10">
       <section className="w-full max-w-xl text-center">
-        <h1 className="whitespace-nowrap text-4xl font-bold tracking-tight sm:text-5xl">ArPrompter</h1>
+        <h1 className="text-[clamp(1.875rem,8vw,3rem)] font-bold tracking-tight">ArPrompter</h1>
         <h2 className="mt-2 text-xl font-semibold tracking-tight text-zinc-800 sm:text-2xl">Script Reader Tool</h2>
         <p className="mx-auto mt-4 max-w-lg text-sm leading-6 text-zinc-600 sm:text-base sm:leading-7">
           Easy to read, easy to use. Paste your script below and start reading at your own pace.
@@ -51,7 +55,7 @@ export default function App() {
           onChange={(event) => updateText(event.target.value)}
           placeholder="Type or paste your script here..."
           style={{ backgroundColor: s.bg, color: s.fg, fontFamily: s.font }}
-          className="mt-8 h-[38vh] min-h-64 w-full resize-y rounded-[1.75rem] border-2 border-blue-500 px-6 py-5 text-left text-base leading-relaxed shadow-xl placeholder:text-current placeholder:opacity-50 focus:outline-none focus:ring-4 focus:ring-blue-500/15 sm:h-72 sm:px-8 sm:py-6"
+          className="mt-6 h-[42svh] min-h-56 max-h-[32rem] w-full resize-y rounded-3xl border-2 border-blue-500 px-4 py-4 text-left text-base leading-relaxed shadow-xl placeholder:text-current placeholder:opacity-50 focus:outline-none focus:ring-4 focus:ring-blue-500/15 sm:mt-8 sm:h-72 sm:rounded-[1.75rem] sm:px-8 sm:py-6"
         />
 
         <button
@@ -60,7 +64,7 @@ export default function App() {
           onPointerEnter={preloadPrompter}
           onFocus={preloadPrompter}
           disabled={!canStart}
-          className="mx-auto mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-violet-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+          className="mx-auto mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-violet-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:mt-6 sm:w-auto"
         >
           <Play size={18} fill="currentColor" />
           Start prompter

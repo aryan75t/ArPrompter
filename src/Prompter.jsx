@@ -112,11 +112,11 @@ export default function Prompter({ text, s, set, full, onExit, onOpenFull }) {
   }, [text, s.size, s.lh, s.width, s.margin, s.gap, s.font, s.ls, sync])
   useEffect(() => { if (full) { const p = document.body.style.overflow; document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = p } } }, [full])
 
-  const btn = 'inline-flex h-9 min-w-9 items-center justify-center rounded-lg bg-white/10 px-2 text-white transition hover:bg-white/20'
+  const btn = 'inline-flex h-11 min-w-11 items-center justify-center rounded-lg bg-white/10 px-2 text-white transition hover:bg-white/20 sm:h-9 sm:min-w-9'
   const tool = 'flex shrink-0 flex-col items-center gap-1 text-[10px] leading-none text-white/80'
   const controls = (
-    <div className={`shrink-0 border-b border-white/15 bg-black px-2 py-2 text-white sm:px-4 ${full ? 'pt-[max(0.5rem,env(safe-area-inset-top))] pb-[max(0.5rem,env(safe-area-inset-bottom))]' : ''}`}>
-      <div className="flex flex-wrap items-end gap-x-3 gap-y-2">
+    <div className={`shrink-0 border-b border-white/15 bg-black px-2 py-2 text-white sm:px-4 ${full ? 'pt-[max(0.5rem,env(safe-area-inset-top))] pb-2' : ''}`}>
+      <div className="flex flex-wrap items-end gap-x-2 gap-y-2 sm:gap-x-3">
         <div className="flex shrink-0 items-center gap-1.5">
           <button className={`${btn} !bg-violet-600 hover:!bg-violet-500`} onClick={toggle} aria-label={ui.play ? 'Pause' : 'Play'}>{ui.play ? <Pause size={18} /> : <Play size={18} />}</button>
           <button className={btn} onClick={reset} aria-label="Reset to start"><RotateCcw size={18} /></button>
@@ -160,7 +160,7 @@ export default function Prompter({ text, s, set, full, onExit, onOpenFull }) {
   return (
     <div ref={root} style={{ background: s.bg }} className={full ? 'fixed inset-0 z-50 flex h-[100dvh] flex-col' : 'flex flex-col rounded-2xl overflow-hidden border border-zinc-300 dark:border-zinc-700 outline-none'}>
       {!(full && hide) && controls}
-      <div className={`relative ${full ? 'flex-1 min-h-0' : 'h-[min(60vh,420px)] min-h-[240px] sm:h-[420px]'}`}>
+      <div className={`relative ${full ? 'flex-1 min-h-0 pb-[env(safe-area-inset-bottom)]' : 'h-[min(60svh,420px)] min-h-[240px] sm:h-[420px]'}`}>
         <div ref={box} className={`prompter-scrollbar absolute inset-0 overflow-y-auto overscroll-contain ${full ? 'pt-[env(safe-area-inset-top)]' : ''}`} style={{ touchAction: 'pan-y' }}
           onScroll={() => { if (box.current && !r.current.play) { r.current.pos = box.current.scrollTop; sync(false) } }}>
           <Body text={text} s={s} contentRef={content} />
